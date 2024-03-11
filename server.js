@@ -1,16 +1,14 @@
 
-console.log('Hello');
-
 const express = require('express');
-const { MongoDBCollectionNamespace } = require('mongodb');
-const mongoose= require('mongoose');
+const mongodb = require('mongodb');
+const mongoose = require('mongoose');
 const app = express();
+
+
+app.use(express.json());
 
 let PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`Listening on port:${PORT}`);
-})
 
 
 app.get('/', (req, res) => {
@@ -19,9 +17,19 @@ app.get('/', (req, res) => {
 
 
 mongoose
-.connect('mongodb+srv://andrew:0102030405@cluster0.y3goqgw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.connect('mongodb+srv://andrew:0102030405@cluster0.y3goqgw.mongodb.net/Node-Api?retryWrites=true&w=majority&appName=Cluster0')
 .then( () => {
   console.log('Connected to mongoDB...');
+  app.listen(PORT, () => {
+    console.log(`Listening on port:${PORT}`);
+  })  ;
 }).catch( (err) => {
   console.log(`ERROR connecting to MongoDB...`, err);
+})
+
+
+// route for saving data into mongoDB/database
+app.post('/product', (req, res) => {
+  console.log(req.body);
+  res.send(req.body)
 })
